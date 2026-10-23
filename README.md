@@ -1,77 +1,90 @@
-# 📄 ATSScan - ATS Resume Checker
+# 📄 ATSScan AI — Smart Resume Analyzer & Job Match Engine
 
-ATSScan is a lightweight, client-side Applicant Tracking System (ATS) resume scanner designed to help job seekers optimize their resumes against job descriptions. It compares keywords, calculates an ATS match score, identifies missing skills, and provides actionable recommendations to increase interview chances.
+**ATSScan AI** is a professional, client-side Applicant Tracking System (ATS) resume optimization platform built with pure **HTML5, CSS3, and Vanilla JavaScript**. It evaluates resumes against job descriptions, computes deterministic compatibility scores, identifies missing critical skills, audits document structural sections, and delivers prioritized, actionable suggestions.
 
----
-
-## ✨ Features
-
-- **🎯 ATS Match Score:** Computes real-time compatibility percentage between your resume and target job description.
-- **🔍 Smart Keyword Extraction:** Automatically filters common stop words and identifies technical skills, tools, and industry keywords.
-- **✅ Matched & Missing Keywords:** Categorizes extracted keywords into matched qualifications and missing requirements.
-- **💡 Actionable Suggestions:** Provides targeted advice to improve keyword density, layout, and formatting.
-- **📤 Resume Upload:** Paste text directly or upload resume files (`.txt`, `.pdf`).
-- **⚡ Client-Side & Private:** All text processing happens locally in your browser—no data is sent to external servers.
+All file parsing and analysis runs **100% locally in the browser** — no resume text or personal details are transmitted to external servers.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Key Features
 
-- **HTML5:** Semantic markup structure.
-- **CSS3:** Modern UI with gradients, cards, and responsive layout.
-- **JavaScript (Vanilla):** Keyword parsing, scoring algorithm, and DOM manipulation.
-- **live-server:** Lightweight local development server with live reload.
+### 1. 🎨 Modern SaaS Interface
+- **Premium Palette:** Deep navy, indigo, and violet design with soft elevation shadows, crisp typography, and responsive layouts.
+- **Light & Dark Mode:** Smooth theme switcher with automatic preference persistence in `localStorage`.
+- **Sticky Navigation:** Quick jump to Hero, Workspace, Workflow, and Local Scan History.
+
+### 2. 📂 Flexible Document Input Workspace
+- **Dual Resume Modes:**
+  - **📁 Upload File:** Drag-and-drop or file browse for **PDF**, **DOCX**, and **TXT** files (up to 10MB). Displays document icon, file size, success badge, and a collapsible text preview drawer.
+  - **✍️ Paste Text:** Clean textarea with live character and word counters.
+- **Target Job Description:**
+  - Large input area with live character and word counts.
+  - **⚡ Quick Role Presets:** 1-click sample loader for *Full Stack Software Engineer*, *Data Scientist / AI*, and *Product Manager*.
+  - **Interactive Live Demo:** One click to test the full analysis with sample data.
+
+### 3. 🧠 Deterministic ATS Scoring & Analysis Engine
+- **Animated Circular Score Gauge:** Visual SVG progress ring with color transitions and qualitative candidate ratings (*Strong Match*, *Good Match*, *Moderate Match*, *Needs Optimization*).
+- **Categorized Keyword Breakdown:**
+  - 💻 Technical Skills & Programming Languages
+  - 🛠️ Tools, Cloud Infrastructure & Platforms
+  - 🎯 Domain Competencies & Methodologies
+- **Dynamic Skill Comparison:** Side-by-side presence verification (*"Identified in Resume"* vs. *"Not identified in document"*).
+- **Resume Quality Checklist:**
+  - Contact Information verification (Email, Phone, LinkedIn/GitHub)
+  - Standard Section Headings detection (Education, Experience, Skills)
+  - Action Verbs density audit (e.g. *Architected*, *Engineered*, *Optimized*)
+  - Quantifiable Metrics check (Percentages `%`, numbers, multipliers `10x`)
+
+### 4. 🚀 Practical Productivity Tools
+- **🖨️ PDF / Print Export:** Formats the entire analysis into a clean, executive printable PDF report via `@media print`.
+- **💾 Local Scan History:** Saves high-level summary scores locally in `localStorage` with individual deletion and "Clear All" controls.
+- **📋 Copy to Clipboard:** 1-click copy for matched/missing keyword lists and formatted recommendations.
+- **🔒 100% Client-Side Privacy:** Zero server dependencies, zero external tracking, and zero database logging.
 
 ---
 
-## 📂 Project Structure
+## 🛠️ Technology Stack
 
-```text
-ats/
-├── index.html          # Main HTML structure
-├── style.css           # Styling and layout
-├── script.js           # Core ATS analysis logic and algorithms
-├── package.json        # Project metadata and dev scripts
-├── .gitignore          # Git ignore rules (node_modules, etc.)
-└── README.md           # Project documentation
-```
+- **HTML5:** Semantic, accessible page layout with SVG icons.
+- **CSS3:** Custom properties (CSS variables) for light/dark themes, responsive flexbox/grid, and print stylesheets.
+- **JavaScript (ES6+):** Modular client-side parsing, tokenization, frequency analysis, and DOM manipulation.
+- **PDF.js (CDN):** Local client-side PDF text extraction.
+- **Mammoth.js (CDN):** Local client-side Word (.docx) text extraction.
+- **live-server:** Local development server with live reload.
+
+---
+
+## 📐 Scoring Formula & Transparency
+
+ATSScan AI calculates compatibility using a transparent, multi-factor deterministic formula:
+
+$$\text{ATS Score} = \left(\frac{\text{Matched Keywords}}{\text{Total Job Keywords}} \times 50\right) + \left(\text{Skills Match Ratio} \times 25\right) + \left(\frac{\text{Section Score}}{100} \times 15\right) + \text{Impact Score (up to 10)}$$
+
+> *Disclaimer:* ATSScan AI is an educational and analytical tool designed to optimize resume keyword alignment and structure. Real corporate Applicant Tracking Systems (e.g., Workday, Greenhouse, Taleo) employ varied proprietary parsing filters, and hiring managers evaluate candidates subjectively. This tool does not guarantee job placement.
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+Make sure you have [Node.js](https://nodejs.org/) installed.
 
-Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+### Installation & Launch
+```bash
+# 1. Clone repository
+git clone https://github.com/AKASH4YOU/ats-checker-.git
+cd ats-checker-
 
-### Installation
+# 2. Install dependencies
+npm install
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/AKASH4YOU/ats-checker-.git
-   cd ats-checker-
-   ```
+# 3. Start local server
+npm start
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Start the local development server:**
-   ```bash
-   npm start
-   ```
-
-4. The application will open automatically in your browser at `http://127.0.0.1:8080`.
-
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to open an issue or submit a pull request if you have ideas for improvements, new keywords, or UI enhancements.
+The application will launch automatically at `http://127.0.0.1:8080`.
 
 ---
 
 ## 📄 License
-
 This project is licensed under the [ISC License](LICENSE).
