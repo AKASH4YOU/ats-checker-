@@ -157,16 +157,106 @@ function generateSuggestions(score, missing, matched) {
     return suggestions;
 }
 
+// Configure PDF.js Worker
+if (window.pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+}
+
+// EXTRACT TEXT FROM PDF
+async function extractTextFromPDF(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let fullText = '';
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const textContent = await page.getTextContent();
+        
+        let lastY;
+        let pageText = '';
+        for (const item of textContent.items) {
+            if (lastY !== undefined && Math.abs(item.transform[5] - lastY) > 5) {
+                pageText += '\n';
+            } else if (pageText && !pageText.endsWith(' ') && !pageText.endsWith('\n')) {
+                pageText += ' ';
+            }
+            pageText += item.str;
+            lastY = item.transform[5];
+        }
+
+        if (pageText.trim()) {
+            fullText += pageText.trim() + '\n\n';
+        }
+    }
+
+    return fullText.trim();
+}
+
+// EXTRACT TEXT FROM DOCX
+async function extractTextFromDocx(file) {
+    const arrayBuffer = await file.arrayBuffer();
+    const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+    return (result.value || '').trim();
+}
+
 // HANDLE FILE UPLOAD
-function handleFileUpload(event) {
+async function handleFileUpload(event) {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        document.getElementById('resume').value = e.target.result;
+    const resumeArea = document.getElementById('resume');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const statusEl = document.getElementById('uploadStatus');
+    const fileName = file.name;
+    const lowerName = fileName.toLowerCase();
+
+    const setStatus = (msg, type = '') => {
+        if (statusEl) {
+            statusEl.textContent = msg;
+            statusEl.className = 'upload-status ' + type;
+        }
     };
-    reader.readAsText(file);
+
+    setStatus(`⏳ Reading ${fileName}...`);
+    if (uploadBtn) uploadBtn.disabled = true;
+
+    try {
+        let extractedText = '';
+
+        if (lowerName.endsWith('.pdf') || file.type === 'application/pdf') {
+            if (!window.pdfjsLib) {
+                throw new Error('PDF parsing library failed to load. Please check your internet connection.');
+            }
+            extractedText = await extractTextFromPDF(file);
+            
+            if (!extractedText || extractedText.length < 10) {
+                alert('⚠️ No readable text found in this PDF. If this is a scanned document/image, ATS checkers require selectable text. Please upload a text-based PDF or paste your resume text directly.');
+            }
+        } else if (lowerName.endsWith('.docx') || file.type.includes('wordprocessingml')) {
+            if (!window.mammoth) {
+                throw new Error('Word document parsing library failed to load.');
+            }
+            extractedText = await extractTextFromDocx(file);
+        } else {
+            // Standard plain text (.txt or other text files)
+            extractedText = await new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(new Error('Failed to read text file'));
+                reader.readAsText(file);
+            });
+        }
+
+        resumeArea.value = extractedText;
+        setStatus(`✅ Loaded: ${fileName}`, 'success');
+    } catch (err) {
+        console.error('File parsing error:', err);
+        setStatus(`❌ Failed to read ${fileName}`, 'error');
+        alert(`Could not extract text from "${fileName}": ${err.message || 'Unknown error'}`);
+    } finally {
+        if (uploadBtn) uploadBtn.disabled = false;
+        event.target.value = ''; // Reset input to allow re-uploading the same file
+    }
 }
 
 // SHOW/HIDE LOADING
@@ -180,4 +270,10 @@ function clearAll() {
     document.getElementById('jobDesc').value = '';
     document.getElementById('resultsSection').style.display = 'none';
     document.getElementById('fileInput').value = '';
+    const statusEl = document.getElementById('uploadStatus');
+    if (statusEl) {
+        statusEl.textContent = '';
+        statusEl.className = 'upload-status';
+    }
 }
+

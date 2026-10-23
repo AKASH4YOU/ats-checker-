@@ -62,6 +62,26 @@ body {
     font-size: 1.05em;
 }
 
+.label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.upload-status {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #667eea;
+}
+
+.upload-status.success {
+    color: #10b981;
+}
+
+.upload-status.error {
+    color: #ef4444;
+}
+
 .input-group textarea {
     padding: 15px;
     border: 2px solid #e0e0e0;

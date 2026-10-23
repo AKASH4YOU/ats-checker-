@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ATSScan - ATS Resume Checker</title>
     <link rel="stylesheet" href="style.css">
+    <!-- PDF.js library for extracting text from PDF resumes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- Mammoth.js library for extracting text from Word resumes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -17,8 +23,12 @@
             <!-- INPUT SECTION -->
             <div class="input-section">
                 <div class="input-group">
-                    <label for="resume">📋 Your Resume</label>
-                    <textarea id="resume" placeholder="Paste your resume here or upload..."></textarea>
+                    <div class="label-row">
+                        <label for="resume">📋 Your Resume</label>
+                        <span id="uploadStatus" class="upload-status"></span>
+                    </div>
+                    <textarea id="resume"
+                        placeholder="Paste your resume here or upload (.pdf, .docx, .txt)..."></textarea>
                 </div>
 
                 <div class="input-group">
@@ -31,8 +41,10 @@
                     <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
                 </div>
 
-                <input type="file" id="fileInput" accept=".txt,.pdf" style="display:none" onchange="handleFileUpload(event)">
-                <button class="btn btn-secondary" onclick="document.getElementById('fileInput').click()">📤 Upload Resume</button>
+                <input type="file" id="fileInput" accept=".pdf,.docx,.txt" style="display:none"
+                    onchange="handleFileUpload(event)">
+                <button type="button" class="btn btn-secondary" id="uploadBtn"
+                    onclick="document.getElementById('fileInput').click()">📤 Upload Resume (.pdf, .docx, .txt)</button>
             </div>
 
             <!-- RESULTS SECTION -->
@@ -55,12 +67,12 @@
 
                 <div class="results-grid">
                     <div class="result-box matched">
-                        <h3>✅ Matched Keywords</h3>
+                        <h3>✅ Matched Skills</h3>
                         <div class="keyword-list" id="matchedKeywords"></div>
                     </div>
 
                     <div class="result-box missing">
-                        <h3>❌ Missing Keywords</h3>
+                        <h3>❌ Missing Skills</h3>
                         <div class="keyword-list" id="missingKeywords"></div>
                     </div>
 
@@ -79,4 +91,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
