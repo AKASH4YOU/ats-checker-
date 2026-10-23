@@ -1,0 +1,276 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.1em;
+    opacity: 0.9;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 30px;
+}
+
+.input-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: #333;
+    font-size: 1.05em;
+}
+
+.input-group textarea {
+    padding: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1em;
+    resize: vertical;
+    min-height: 200px;
+    transition: border-color 0.3s;
+}
+
+.input-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.btn-secondary:hover {
+    background: #e0e0e0;
+}
+
+.results-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.score-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.score-value {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.score-label {
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+.score-status {
+    font-size: 1.1em;
+    margin-top: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.result-box {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #667eea;
+}
+
+.result-box h3 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.result-box.matched {
+    border-left-color: #10b981;
+}
+
+.result-box.missing {
+    border-left-color: #ef4444;
+}
+
+.result-box.suggestions {
+    border-left-color: #f59e0b;
+    grid-column: 1 / -1;
+}
+
+.keyword-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.keyword-tag {
+    background: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    border: 1px solid #ddd;
+}
+
+.keyword-tag.matched {
+    background: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+}
+
+.keyword-tag.missing {
+    background: #fee2e2;
+    border-color: #ef4444;
+    color: #7f1d1d;
+}
+
+.suggestion-item {
+    background: white;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    border-left: 3px solid #f59e0b;
+    font-size: 0.9em;
+}
+
+.suggestion-item strong {
+    color: #667eea;
+}
+
+.hidden {
+    display: none;
+}
+
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #667eea;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 1.8em;
+    }
+
+    .score-value {
+        font-size: 2.5em;
+    }
+
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stats-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.stat-item {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid #f0f0f0;
+}
+
+.stat-value {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    font-size: 0.85em;
+    color: #666;
+    margin-top: 5px;
+}
